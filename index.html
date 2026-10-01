@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sólidos Geométricos: Pirâmide, Troncos e Cilindro</title>
+<style>
+:root{--bg:#fdf5f9;--card:#fff;--ink:#3a1c40;--mut:#7a5e80;--plum:#5b2a63;--rose:#d6457a;--rose-l:#fde4ee;--lil:#a48ad8;--lil-l:#efe8fb;--ok:#2e8b57;--bad:#c0392b;--line:#e8d6ea}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:linear-gradient(135deg,var(--plum),#8a3f86 60%,var(--rose));color:#fff;padding:2.6rem 1.2rem 2.2rem;text-align:center}
+header small{letter-spacing:.14em;text-transform:uppercase;opacity:.85;font-size:.78rem}
+header h1{font:700 clamp(1.6rem,5vw,2.4rem)/1.2 Georgia,serif;margin:.5rem 0 .6rem}
+header p{max-width:640px;margin:0 auto;opacity:.92}
+main{max-width:920px;margin:0 auto;padding:1.4rem 1rem 3rem}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 .9rem;box-shadow:0 2px 8px rgba(91,42,99,.06)}
+summary{cursor:pointer;list-style:none;padding:1rem 1.2rem;font:700 1.1rem Georgia,serif;color:var(--plum);display:flex;align-items:center;gap:.7rem}
+summary::-webkit-details-marker{display:none}
+summary .n{background:var(--rose);color:#fff;border-radius:50%;width:1.9rem;height:1.9rem;display:grid;place-items:center;font:700 .9rem system-ui;flex:none}
+summary::after{content:"+";margin-left:auto;color:var(--rose);font-size:1.5rem}
+details[open]>summary::after{content:"–"}
+details[open]>summary{border-bottom:1px solid var(--line)}
+.body{padding:1.1rem 1.2rem 1.3rem}
+h3{font:700 1.02rem Georgia,serif;color:var(--rose);margin:1.4rem 0 .5rem}
+h3:first-child{margin-top:0}
+p{margin:.5rem 0}
+.box{background:var(--lil-l);border-left:4px solid var(--lil);border-radius:8px;padding:.7rem 1rem;margin:.9rem 0}
+.box.warn{background:var(--rose-l);border-color:var(--rose)}
+.two{display:grid;grid-template-columns:1.1fr .9fr;gap:1rem;align-items:start;margin:.9rem 0}
+.viewer{background:#fffafd;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.viewer .cv{width:100%;height:260px;display:block;cursor:grab;touch-action:none}
+.viewer .cv:active{cursor:grabbing}
+.viewer .hint{text-align:center;font-size:.76rem;color:var(--mut);padding:.4rem 0;border-top:1px solid var(--line)}
+.cross{background:#fffafd;border:1px solid var(--line);border-radius:12px;padding:.6rem;text-align:center}
+.cross svg{width:100%;height:auto;max-height:260px}
+.cross svg text{font:600 14px system-ui,sans-serif;fill:#3a1c40}
+.fm{background:#fffafd;border:1px solid var(--line);border-radius:12px;padding:.9rem .9rem;margin:.8rem 0;text-align:center;font:1.1rem Georgia,serif;overflow-x:auto}
+.fm .lb{display:block;font:600 .8rem system-ui;color:var(--mut);margin-bottom:.3rem;white-space:normal}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .3em}
+.fr>span:first-child{border-bottom:2px solid var(--plum);padding:0 .35em .12em}
+.fr>span:last-child{padding:.12em .35em 0}
+.chip{border-radius:12px;padding:.8rem 1rem;font-size:.92rem;border:1px solid var(--line);background:#fffafd;margin:.5rem 0}
+.chip b.t{display:block;font:700 1rem Georgia,serif;color:var(--plum);margin-bottom:.2rem}
+.chip.g{background:#e7f6ee;border-color:#b9e2cb}
+table{width:100%;border-collapse:collapse;font-size:.88rem;display:block;overflow-x:auto}
+th,td{padding:.55rem .7rem;border:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--plum);color:#fff;white-space:nowrap}
+tr:nth-child(even) td{background:#fbf3fa}
+ul{padding-left:1.2rem;margin:.4rem 0}li{margin:.25rem 0}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:.8rem}
+.fc{perspective:900px;height:150px;cursor:pointer}
+.fc div{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.on div{transform:rotateY(180deg)}
+.fc span{position:absolute;inset:0;backface-visibility:hidden;display:grid;place-items:center;text-align:center;padding:.9rem;border-radius:12px;font-size:.93rem}
+.fc .a{background:linear-gradient(135deg,var(--plum),var(--rose));color:#fff;font-weight:600}
+.fc .b{background:var(--lil-l);border:2px solid var(--lil);transform:rotateY(180deg)}
+.q{border:1px solid var(--line);border-radius:12px;padding:1rem;margin:.8rem 0;background:#fffafd}
+.q p{font-weight:600}
+.q button{display:block;width:100%;text-align:left;margin:.35rem 0;padding:.6rem .8rem;border:1.5px solid var(--line);background:#fff;border-radius:9px;font:inherit;cursor:pointer;color:var(--ink)}
+.q button:hover:not(:disabled){border-color:var(--lil);background:var(--lil-l)}
+.q button.ok{background:#e3f5ea;border-color:var(--ok)}.q button.no{background:#fbe4e1;border-color:var(--bad)}
+.q .ex{display:none;font-size:.9rem;margin-top:.5rem;color:var(--mut)}
+.score{position:sticky;bottom:.6rem;background:var(--plum);color:#fff;padding:.7rem 1rem;border-radius:12px;text-align:center;font-weight:700}
+footer{text-align:center;color:var(--mut);font-size:.82rem;padding:1rem}
+@media(max-width:680px){.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<small>Matemática · Geometria Espacial</small>
+<h1>Pirâmide, Tronco de Pirâmide, Tronco de Cone e Cilindro</h1>
+<p>Arraste os modelos 3D para girar e ver os sólidos de todos os ângulos. Fórmulas de área e volume, diagramas com as medidas e exemplos resolvidos.</p>
+</header>
+<main>
+
+<details open><summary><span class="n">1</span>Pirâmide</summary><div class="body">
+<p>Sólido com uma base poligonal e faces laterais triangulares que se encontram em um único ponto, o <b>vértice</b> (ou ápice).</p>
+<div class="two">
+<div class="viewer"><canvas class="cv" id="v-piramide"></canvas><div class="hint">Arraste para girar</div></div>
+<div class="cross"><svg viewBox="0 0 220 220">
+<polygon points="40,165 180,165 140,185 70,185" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<line x1="110" y1="30" x2="40" y2="165" stroke="#5b2a63" stroke-width="2"/>
+<line x1="110" y1="30" x2="180" y2="165" stroke="#5b2a63" stroke-width="2"/>
+<line x1="110" y1="30" x2="70" y2="185" stroke="#5b2a63" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="110" y1="30" x2="140" y2="185" stroke="#5b2a63" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="110" y1="30" x2="110" y2="175" stroke="#d6457a" stroke-width="2" stroke-dasharray="3 3"/>
+<line x1="110" y1="175" x2="110" y2="175" stroke="#d6457a"/>
+<text x="118" y="105">h</text>
+<line x1="110" y1="175" x2="144" y2="175" stroke="#a48ad8" stroke-width="2"/>
+<text x="118" y="196">m</text>
+<text x="100" y="205">base (Ab)</text>
+</svg></div></div>
+<h3>Elementos</h3>
+<ul><li><b>h</b> — altura: distância do vértice ao plano da base.</li><li><b>m</b> — apótema lateral: altura de cada face triangular (do vértice até o meio da aresta da base).</li><li><b>Ab</b> — área da base (depende do polígono: quadrado, triângulo, hexágono...).</li></ul>
+<div class="fm"><span class="lb">Volume</span>V = <span class="fr"><span>1</span><span>3</span></span> · A<sub>b</sub> · h</div>
+<div class="fm"><span class="lb">Área lateral (soma das faces triangulares)</span>A<sub>l</sub> = <span class="fr"><span>P<sub>base</sub> · m</span><span>2</span></span> &nbsp;&nbsp; A<sub>total</sub> = A<sub>l</sub> + A<sub>b</sub></div>
+<div class="box"><b>Pirâmide regular:</b> a base é um polígono regular e o vértice fica exatamente acima do centro da base. É o caso mais cobrado em prova.</div>
+<div class="chip g"><b class="t">Exemplo</b>Pirâmide de base quadrada com aresta da base 6 cm e altura 4 cm.<br>Ab = 6² = 36 cm². V = (1/3) · 36 · 4 = <b>48 cm³</b>.</div>
+</div></details>
+
+<details><summary><span class="n">2</span>Tronco de pirâmide</summary><div class="body">
+<p>Corta-se a pirâmide por um plano paralelo à base. A parte de baixo é o <b>tronco</b>, com duas bases paralelas: a base maior (A₁) e a base menor (A₂).</p>
+<div class="two">
+<div class="viewer"><canvas class="cv" id="v-tronco-piramide"></canvas><div class="hint">Arraste para girar</div></div>
+<div class="cross"><svg viewBox="0 0 220 220">
+<polygon points="20,175 200,175 165,190 55,190" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<polygon points="65,45 155,45 140,55 80,55" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<line x1="65" y1="45" x2="20" y2="175" stroke="#5b2a63" stroke-width="2"/>
+<line x1="155" y1="45" x2="200" y2="175" stroke="#5b2a63" stroke-width="2"/>
+<line x1="80" y1="55" x2="55" y2="190" stroke="#5b2a63" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="140" y1="55" x2="165" y2="190" stroke="#5b2a63" stroke-width="2" stroke-dasharray="4 3"/>
+<line x1="110" y1="50" x2="110" y2="182" stroke="#d6457a" stroke-width="2" stroke-dasharray="3 3"/>
+<text x="118" y="120">h</text>
+<text x="100" y="40">base menor (A₂)</text>
+<text x="92" y="207">base maior (A₁)</text>
+</svg></div></div>
+<div class="fm"><span class="lb">Volume (fórmula de Legendre)</span>V = <span class="fr"><span>h</span><span>3</span></span> · (A<sub>1</sub> + A<sub>2</sub> + √(A<sub>1</sub> · A<sub>2</sub>))</div>
+<div class="box"><b>Como obter:</b> V<sub>tronco</sub> = V<sub>pirâmide grande</sub> − V<sub>pirâmide pequena (cortada)</sub>. As duas pirâmides são semelhantes, com razão de semelhança k = A₂/altura relativa.</div>
+<div class="chip g"><b class="t">Exemplo</b>Tronco com A₁ = 64 cm², A₂ = 16 cm² e h = 6 cm.<br>V = (6/3) · (64 + 16 + √(64·16)) = 2 · (80 + 32) = <b>224 cm³</b>.</div>
+</div></details>
+
+<details><summary><span class="n">3</span>Tronco de cone</summary><div class="body">
+<p>Mesma ideia do tronco de pirâmide, mas aplicada ao cone: duas bases circulares paralelas, de raios R (maior) e r (menor).</p>
+<div class="two">
+<div class="viewer"><canvas class="cv" id="v-tronco-cone"></canvas><div class="hint">Arraste para girar</div></div>
+<div class="cross"><svg viewBox="0 0 220 220">
+<ellipse cx="110" cy="175" rx="90" ry="14" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<ellipse cx="110" cy="45" rx="35" ry="9" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<line x1="20" y1="175" x2="75" y2="45" stroke="#5b2a63" stroke-width="2"/>
+<line x1="200" y1="175" x2="145" y2="45" stroke="#5b2a63" stroke-width="2"/>
+<line x1="110" y1="45" x2="110" y2="175" stroke="#d6457a" stroke-width="2" stroke-dasharray="3 3"/>
+<line x1="110" y1="50" x2="140" y2="50" stroke="#a48ad8" stroke-width="2"/>
+<text x="118" y="115">h</text>
+<text x="118" y="42">r</text>
+<text x="118" y="168">R</text>
+<text x="40" y="100" transform="rotate(-62 40 100)" fill="#7a5e80">g</text>
+</svg></div></div>
+<h3>Geratriz (g)</h3>
+<div class="fm">g<sup>2</sup> = h<sup>2</sup> + (R − r)<sup>2</sup></div>
+<div class="fm"><span class="lb">Volume</span>V = <span class="fr"><span>π · h</span><span>3</span></span> · (R<sup>2</sup> + R·r + r<sup>2</sup>)</div>
+<div class="fm"><span class="lb">Área lateral e total</span>A<sub>l</sub> = π · (R + r) · g &nbsp;&nbsp; A<sub>total</sub> = A<sub>l</sub> + πR<sup>2</sup> + πr<sup>2</sup></div>
+<div class="chip g"><b class="t">Exemplo</b>Copo em forma de tronco de cone com R = 5 cm, r = 3 cm e h = 4 cm.<br>g = √(4² + 2²) = √20 ≈ 4,47 cm. V = (π·4/3)·(25+15+9) = (4π/3)·49 ≈ <b>205,3 cm³</b>.</div>
+</div></details>
+
+<details><summary><span class="n">4</span>Cilindro</summary><div class="body">
+<p>Sólido com duas bases circulares iguais e paralelas, unidas por uma superfície lateral curva. É o caso particular do tronco de cone quando R = r.</p>
+<div class="two">
+<div class="viewer"><canvas class="cv" id="v-cilindro"></canvas><div class="hint">Arraste para girar</div></div>
+<div class="cross"><svg viewBox="0 0 220 220">
+<ellipse cx="110" cy="175" rx="70" ry="14" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<ellipse cx="110" cy="40" rx="70" ry="14" fill="none" stroke="#5b2a63" stroke-width="2"/>
+<line x1="40" y1="175" x2="40" y2="40" stroke="#5b2a63" stroke-width="2"/>
+<line x1="180" y1="175" x2="180" y2="40" stroke="#5b2a63" stroke-width="2"/>
+<line x1="110" y1="40" x2="110" y2="175" stroke="#d6457a" stroke-width="2" stroke-dasharray="3 3"/>
+<line x1="110" y1="40" x2="180" y2="40" stroke="#a48ad8" stroke-width="2"/>
+<text x="118" y="110">h</text>
+<text x="140" y="34">r</text>
+</svg></div></div>
+<div class="fm"><span class="lb">Volume</span>V = π · r<sup>2</sup> · h</div>
+<div class="fm"><span class="lb">Área lateral e total</span>A<sub>l</sub> = 2π · r · h &nbsp;&nbsp; A<sub>total</sub> = 2π · r · (r + h)</div>
+<div class="box"><b>Cilindro equilátero:</b> quando a altura é igual ao diâmetro (h = 2r). Nesse caso a secção meridiana é um quadrado.</div>
+<div class="chip g"><b class="t">Exemplo</b>Lata cilíndrica com r = 4 cm e h = 10 cm.<br>V = π · 16 · 10 = 160π ≈ <b>502,7 cm³</b>. A<sub>total</sub> = 2π·4·(4+10) = 112π ≈ <b>351,9 cm²</b>.</div>
+</div></details>
+
+<details><summary><span class="n">5</span>Comparando os quatro</summary><div class="body">
+<table><tr><th>Sólido</th><th>Bases</th><th>Volume</th><th>Observação</th></tr>
+<tr><td>Pirâmide</td><td>1 (poligonal)</td><td>(1/3)·Ab·h</td><td>Converge a um vértice</td></tr>
+<tr><td>Tronco de pirâmide</td><td>2 (poligonais, paralelas, semelhantes)</td><td>(h/3)(A₁+A₂+√(A₁A₂))</td><td>Pirâmide grande − pirâmide cortada</td></tr>
+<tr><td>Tronco de cone</td><td>2 (circulares, paralelas)</td><td>(πh/3)(R²+Rr+r²)</td><td>Versão "redonda" do tronco de pirâmide</td></tr>
+<tr><td>Cilindro</td><td>2 (circulares, iguais)</td><td>πr²h</td><td>Tronco de cone com R = r</td></tr></table>
+<div class="box warn"><b>Macete:</b> se R = r no tronco de cone, a fórmula do volume vira πh·r² — exatamente o volume do cilindro. É um bom jeito de conferir se você decorou certo.</div>
+</div></details>
+
+<details><summary><span class="n">6</span>Flashcards (clique para virar)</summary><div class="body"><div class="cards" id="fc"></div></div></details>
+
+<details open><summary><span class="n">7</span>Quiz com correção imediata</summary><div class="body"><div id="quiz"></div><div class="score" id="score"></div></div></details>
+</main>
+<footer>Material de estudo · Matemática · Geometria espacial</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+function makeSolid(type){
+  const g=new THREE.Group();
+  const mat=new THREE.MeshStandardMaterial({color:0xd6457a,opacity:.82,transparent:true,side:THREE.DoubleSide,roughness:.55,metalness:.05});
+  const lineMat=new THREE.LineBasicMaterial({color:0x3a1c40,linewidth:1});
+  let geo;
+  if(type==="piramide")       geo=new THREE.CylinderGeometry(0,1.5,2.1,4,1);
+  if(type==="tronco-piramide")geo=new THREE.CylinderGeometry(0.7,1.5,2.1,4,1);
+  if(type==="tronco-cone")    geo=new THREE.CylinderGeometry(0.8,1.5,2.1,40,1);
+  if(type==="cilindro")       geo=new THREE.CylinderGeometry(1.2,1.2,2.1,40,1);
+  const mesh=new THREE.Mesh(geo,mat);
+  const edges=new THREE.LineSegments(new THREE.EdgesGeometry(geo,20),lineMat);
+  if(type==="piramide"||type==="tronco-piramide") mesh.rotation.y=Math.PI/4, edges.rotation.y=Math.PI/4;
+  g.add(mesh);g.add(edges);
+  return g;
+}
+function initViewer(id,type){
+  const canvas=document.getElementById(id);
+  const parent=canvas.parentElement;
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(42,2,0.1,100);
+  camera.position.set(0,1.1,5.6);
+  scene.add(new THREE.AmbientLight(0xffffff,0.75));
+  const d1=new THREE.DirectionalLight(0xffffff,0.9);d1.position.set(3,4,5);scene.add(d1);
+  const d2=new THREE.DirectionalLight(0xffffff,0.4);d2.position.set(-3,-2,-4);scene.add(d2);
+  const solid=makeSolid(type);scene.add(solid);
+  function resize(){const w=parent.clientWidth,h=260;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener("resize",resize);
+  let dragging=false,px=0,py=0,autorot=true;
+  canvas.addEventListener("pointerdown",e=>{dragging=true;autorot=false;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});
+  canvas.addEventListener("pointermove",e=>{if(!dragging)return;const dx=e.clientX-px,dy=e.clientY-py;px=e.clientX;py=e.clientY;solid.rotation.y+=dx*0.009;solid.rotation.x+=dy*0.009;});
+  canvas.addEventListener("pointerup",()=>dragging=false);
+  canvas.addEventListener("pointerleave",()=>dragging=false);
+  (function loop(){requestAnimationFrame(loop);if(autorot)solid.rotation.y+=0.0045;renderer.render(scene,camera);})();
+}
+["piramide","tronco-piramide","tronco-cone","cilindro"].forEach(t=>initViewer("v-"+t,t));
+
+const FC=[["Fórmula do volume da pirâmide","V = (1/3) · Ab · h"],
+["Fórmula do volume do tronco de pirâmide","V = (h/3) · (A₁ + A₂ + √(A₁·A₂))"],
+["Geratriz do tronco de cone","g² = h² + (R − r)²"],
+["Volume do tronco de cone","V = (πh/3) · (R² + Rr + r²)"],
+["Volume do cilindro","V = π·r²·h"],
+["Área total do cilindro","A = 2πr(r + h)"],
+["O que é um cilindro equilátero?","Quando h = 2r (altura igual ao diâmetro); a secção meridiana é um quadrado."],
+["Relação entre tronco de cone e cilindro","Se R = r no tronco de cone, a fórmula vira V = πr²h — o volume do cilindro."]];
+document.getElementById("fc").innerHTML=FC.map(c=>`<div class="fc" onclick="this.classList.toggle('on')"><div><span class="a">${c[0]}</span><span class="b">${c[1]}</span></div></div>`).join("");
+
+const Q=[
+["Uma pirâmide de base quadrada tem aresta da base 5 cm e altura 6 cm. Seu volume é:",["30 cm³","50 cm³","150 cm³","90 cm³"],1,"Ab = 5² = 25. V = (1/3)·25·6 = 50 cm³."],
+["Um tronco de pirâmide tem A₁ = 100 cm², A₂ = 25 cm² e h = 9 cm. Seu volume é:",["525 cm³","375 cm³","675 cm³","225 cm³"],0,"V = (9/3)·(100+25+√(100·25)) = 3·(125+50) = 3·175 = 525 cm³."],
+["Em um tronco de cone com R = 6 cm, r = 2 cm e h = 3 cm, o valor da geratriz g é:",["3 cm","5 cm","7 cm","4 cm"],1,"g² = 3² + (6−2)² = 9+16 = 25. g = 5 cm."],
+["Um cilindro tem raio 3 cm e altura 10 cm. Seu volume, em termos de π, é:",["30π cm³","60π cm³","90π cm³","300π cm³"],2,"V = π·3²·10 = 90π cm³."],
+["Se, em um tronco de cone, o raio maior for igual ao raio menor (R = r), o sólido se torna um:",["Cone","Cilindro","Prisma","Pirâmide"],1,"Sem diferença entre as bases, o tronco de cone vira um cilindro."],
+["Um cilindro é chamado equilátero quando:",["r = h","h = 2r","h = 3r","Nunca é equilátero"],1,"A secção meridiana (um retângulo) vira um quadrado quando h = 2r."],
+["A área lateral de uma pirâmide regular é calculada por:",["Ab · h","(P_base · m) / 2","π·r·g","2πr·h"],1,"A área lateral é a soma das faces triangulares: (perímetro da base × apótema lateral) / 2."]];
+let pts=0,done=0;const qz=document.getElementById("quiz"),sc=document.getElementById("score");
+sc.textContent="Acertos: 0 / "+Q.length;
+Q.forEach((q,i)=>{const d=document.createElement("div");d.className="q";
+  d.innerHTML=`<p>${i+1}. ${q[0]}</p>`+q[1].map((o,j)=>`<button data-j="${j}">${"ABCD"[j]}) ${o}</button>`).join("")+`<div class="ex"></div>`;
+  d.querySelectorAll("button").forEach(b=>b.onclick=()=>{const j=+b.dataset.j,bs=d.querySelectorAll("button");
+    bs.forEach(x=>x.disabled=true);bs[q[2]].classList.add("ok");
+    if(j===q[2])pts++;else b.classList.add("no");
+    const ex=d.querySelector(".ex");ex.style.display="block";ex.textContent=(j===q[2]?"Correto! ":"Incorreto. ")+q[3];
+    done++;sc.textContent="Acertos: "+pts+" / "+Q.length+(done===Q.length?" · Fim!":"");});
+  qz.appendChild(d)});
+</script>
+</body>
+</html>
